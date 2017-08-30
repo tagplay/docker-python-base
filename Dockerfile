@@ -12,6 +12,14 @@ RUN echo "${CONSUL_CHECKSUM}  /tmp/consul.zip" > /tmp/consul.sha256 \
     && unzip /tmp/consul -d /bin \
     && rm /tmp/consul.zip
 
+# Install Consul Template
+ENV CONSUL_TEMPLATE_VERSION 0.15.0
+ENV CONSUL_TEMPLATE_CHECKSUM b7561158d2074c3c68ff62ae6fc1eafe8db250894043382fb31f0c78150c513a
+RUN curl --retry 3 -Lso /tmp/consul-template.zip \
+    "https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip" \
+    && unzip /tmp/consul-template.zip -d /bin \
+    && rm /tmp/consul-template.zip
+
 # Install s6 overlay
 ENV S6_OVERLAY_VERSION 1.18.1.5
 RUN curl -Ls "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz" | tar xvzf - -C /
